@@ -18,6 +18,7 @@ public class Income {
     private Long id;
 
     @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
     @OneToMany(mappedBy = "income")

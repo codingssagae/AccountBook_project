@@ -18,11 +18,14 @@ public class Expense {
     private Long id;
 
     @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
     @OneToMany(mappedBy = "expense",cascade = CascadeType.REMOVE)
     private List<ExpenseItem> expenseItems = new ArrayList<>();
 
     private int totalExpenseAmount;
+
+
 
 }

@@ -65,6 +65,9 @@ class AccountbookApplicationTests {
         incomeItem2.setIncomePath("새뱃돈 겟");
         incomeItem2.setIncome(income);
 
+        member.setIncome(income);
+        member.setExpense(expense);
+
         memberRepository.save(member);
         expenseRepository.save(expense);
         expenseItemRepository.save(expenseItem);
@@ -73,11 +76,12 @@ class AccountbookApplicationTests {
         incomeItemRepository.save(incomeItem2);
         incomeRepository.save(income);
 
+
         em.flush();
         em.clear();
 
-        int size = expense.getExpenseItems().size();
-        System.out.println("size = " + size);
+        expenseRepository.updateTotalExpenseAmount(expense);
+        incomeRepository.updateTotalIncomeAmount(income);
 
     }
 
