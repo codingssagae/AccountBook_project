@@ -55,6 +55,12 @@ class AccountbookApplicationTests {
         expenseItem2.setItemPrice(250000);
         expenseItem2.setItemType(ItemType.CLOTHES);
         expenseItem2.setExpense(expense);
+        ExpenseItem expenseItem3 = new ExpenseItem();
+        expenseItem3.setItemName("톰브라운 가디건");
+        expenseItem3.setItemCount(1);
+        expenseItem3.setItemPrice(1700000);
+        expenseItem3.setItemType(ItemType.CLOTHES);
+        expenseItem3.setExpense(expense);
 
         IncomeItem incomeItem = new IncomeItem();
         incomeItem.setIncomeAmount(350000);
@@ -72,6 +78,7 @@ class AccountbookApplicationTests {
         expenseRepository.save(expense);
         expenseItemRepository.save(expenseItem);
         expenseItemRepository.save(expenseItem2);
+        expenseItemRepository.save(expenseItem3);
         incomeItemRepository.save(incomeItem);
         incomeItemRepository.save(incomeItem2);
         incomeRepository.save(income);
@@ -81,7 +88,10 @@ class AccountbookApplicationTests {
         em.clear();
 
         expenseRepository.updateTotalExpenseAmount(expense);
+        expenseRepository.updateClothesExpenseAmount(expense);
+        expenseRepository.updateFoodExpenseAmount(expense);
         incomeRepository.updateTotalIncomeAmount(income);
+
 
     }
 

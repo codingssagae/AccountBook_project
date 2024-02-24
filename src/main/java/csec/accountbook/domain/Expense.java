@@ -26,6 +26,10 @@ public class Expense {
 
     private int totalExpenseAmount;
 
+    private int foodExpenseAmount;
+    private int clothesExpenseAmount;
+
+
 
 
 }
