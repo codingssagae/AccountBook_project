@@ -1,7 +1,8 @@
 package csec.accountbook;
 
 import csec.accountbook.domain.*;
-import csec.accountbook.domain.repository.*;
+import csec.accountbook.repository.*;
+import csec.accountbook.service.*;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,88 +10,52 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @SpringBootTest
 class AccountbookApplicationTests {
 
-    @Autowired
-    ExpenseRepository expenseRepository;
-    @Autowired
-    ExpenseItemRepository expenseItemRepository;
-    @Autowired
-    IncomeRepository incomeRepository;
-    @Autowired
-    IncomeItemRepository incomeItemRepository;
-    @Autowired
-    MemberRepository memberRepository;
 
+    @Autowired EntityManager em;
+    @Autowired ExpenseItemService expenseItemService;
+    @Autowired ExpenseSevice expenseSevice;
+    @Autowired MemberService memberService;
     @Autowired
-    EntityManager em;
+    IncomeService incomeService;
+    @Autowired
+    IncomeItemService incomeItemService;
+
 
     @Test
     @Transactional
     @Rollback(value = false)
     public void test11(){
 
-        //Given
+        //given
 
-        Member member = new Member();
-        member.setAge(25);
-        member.setName("Lee");
+        ExpenseItem item1 = expenseItemService.save("막창", 55000, 1, "food");
+        ExpenseItem item2 = expenseItemService.save("가디건", 27000, 3, "clothes");
+        ExpenseItem item5 = expenseItemService.save("야끼우동", 12500, 1, "food");
+        IncomeItem item3 = incomeItemService.save(560000, "설날 뽀찌");
+        IncomeItem item4 = incomeItemService.save(4900000, "월급");
 
-        Expense expense = new Expense();
-        expense.setMember(member);
+        Member member = memberService.createMember("이건희", 25);
 
-        Income income = new Income();
-        income.setMember(member);
+        Expense expense = expenseSevice.createExpense(member);
+        Income income = incomeService.createIncome(member);
 
-        ExpenseItem expenseItem = new ExpenseItem();
-        expenseItem.setItemName("Noodle");
-        expenseItem.setItemCount(1);
-        expenseItem.setItemPrice(10000);
-        expenseItem.setItemType(ItemType.FOOD);
-        expenseItem.setExpense(expense);
-        ExpenseItem expenseItem2 = new ExpenseItem();
-        expenseItem2.setItemName("노스페이스 패딩");
-        expenseItem2.setItemCount(1);
-        expenseItem2.setItemPrice(250000);
-        expenseItem2.setItemType(ItemType.CLOTHES);
-        expenseItem2.setExpense(expense);
-        ExpenseItem expenseItem3 = new ExpenseItem();
-        expenseItem3.setItemName("톰브라운 가디건");
-        expenseItem3.setItemCount(1);
-        expenseItem3.setItemPrice(1700000);
-        expenseItem3.setItemType(ItemType.CLOTHES);
-        expenseItem3.setExpense(expense);
+        //when
 
-        IncomeItem incomeItem = new IncomeItem();
-        incomeItem.setIncomeAmount(350000);
-        incomeItem.setIncomePath("월급받음");
-        incomeItem.setIncome(income);
-        IncomeItem incomeItem2 = new IncomeItem();
-        incomeItem2.setIncomeAmount(100000);
-        incomeItem2.setIncomePath("새뱃돈 겟");
-        incomeItem2.setIncome(income);
+        expenseSevice.saveItem(expense,item1,item2,item5);
+        expenseSevice.updateClothesExpenseAmount(expense);
+        expenseSevice.updateTotalExpenseAmount(expense);
+        expenseSevice.updateFoodExpenseAmount(expense);
 
-        member.setIncome(income);
-        member.setExpense(expense);
-
-        memberRepository.save(member);
-        expenseRepository.save(expense);
-        expenseItemRepository.save(expenseItem);
-        expenseItemRepository.save(expenseItem2);
-        expenseItemRepository.save(expenseItem3);
-        incomeItemRepository.save(incomeItem);
-        incomeItemRepository.save(incomeItem2);
-        incomeRepository.save(income);
-
+        incomeService.saveItem(income,item3,item4);
+        incomeService.updateTotalIncomeAmount(income);
 
         em.flush();
         em.clear();
-
-        expenseRepository.updateTotalExpenseAmount(expense);
-        expenseRepository.updateClothesExpenseAmount(expense);
-        expenseRepository.updateFoodExpenseAmount(expense);
-        incomeRepository.updateTotalIncomeAmount(income);
 
 
     }

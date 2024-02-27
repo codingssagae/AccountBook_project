@@ -1,25 +1,37 @@
-package csec.accountbook.domain.repository;
+package csec.accountbook.service;
 
-import csec.accountbook.domain.Expense;
-import csec.accountbook.domain.ExpenseItem;
-import csec.accountbook.domain.Income;
-import csec.accountbook.domain.IncomeItem;
+import csec.accountbook.domain.*;
+import csec.accountbook.repository.IncomeRepository;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Repository
+@Service
 @RequiredArgsConstructor
-public class IncomeRepository {
+@Transactional(readOnly = true)
+public class IncomeService {
 
+    private final IncomeRepository incomeRepository;
     private final EntityManager em;
-
-    public void save(Income income){
-        em.persist(income);
+    @Transactional
+    public Income createIncome(Member member){
+        Income income = new Income();
+        income.setMember(member);
+        incomeRepository.save(income);
+        return income;
     }
+    @Transactional
+    public void saveItem(Income income, IncomeItem ... items){
+        for (IncomeItem item : items){
+            item.setIncome(income);
+            income.getIncomeItems().add(item);
+        }
+    }
+
+
 
     @Transactional
     public void updateTotalIncomeAmount(Income income){
@@ -35,4 +47,7 @@ public class IncomeRepository {
         income.setTotalIncomeAmount(totalAmount);
         em.merge(income);
     }
+
+
+
 }

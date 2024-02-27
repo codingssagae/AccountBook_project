@@ -19,8 +19,9 @@ public class ExpenseItem {
     private Expense expense;
 
     private String itemName;
-    private int itemPrice;
+    private int singleItemPrice;
     private int itemCount;
+    private int totalItemPrice;
 
     @Enumerated(STRING)
     private ItemType itemType;

@@ -21,7 +21,7 @@ public class Expense {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @OneToMany(mappedBy = "expense",cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "expense",cascade = CascadeType.ALL)
     private List<ExpenseItem> expenseItems = new ArrayList<>();
 
     private int totalExpenseAmount;
