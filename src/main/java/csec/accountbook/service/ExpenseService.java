@@ -11,11 +11,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class ExpenseSevice {
+public class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
     private final EntityManager em;
@@ -33,6 +34,14 @@ public class ExpenseSevice {
             item.setExpense(expense);
             expense.getExpenseItems().add(item);
         }
+    }
+
+
+    public int getTotalAmount(){
+        Optional<Expense> expense = expenseRepository.findById(1L);
+        Expense expense1 = expense.get();
+        int totalExpenseAmount = expense1.getTotalExpenseAmount();
+        return totalExpenseAmount;
     }
 
     @Transactional

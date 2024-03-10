@@ -1,10 +1,13 @@
 package csec.accountbook.service;
 
+import csec.accountbook.domain.ExpenseItem;
 import csec.accountbook.domain.IncomeItem;
 import csec.accountbook.repository.IncomeItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +22,10 @@ public class IncomeItemService {
         item.setIncomePath(path);
         incomeItemRepository.save(item);
         return item;
+    }
+
+    public List<IncomeItem> getAllItems(){
+        return incomeItemRepository.findAll();
     }
 
 }

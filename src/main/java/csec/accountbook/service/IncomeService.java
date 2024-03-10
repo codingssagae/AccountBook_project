@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -48,6 +49,13 @@ public class IncomeService {
         em.merge(income);
     }
 
+
+    public int getTotalIncomeAmount(){
+        Optional<Income> income = incomeRepository.findById(1L);
+        Income income1 = income.get();
+        int totalIncomeAmount = income1.getTotalIncomeAmount();
+        return totalIncomeAmount;
+    }
 
 
 }

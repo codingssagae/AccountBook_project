@@ -12,5 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Repository
 public interface IncomeRepository extends JpaRepository<Income,Long> {
 }

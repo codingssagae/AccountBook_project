@@ -10,7 +10,7 @@ public class MainController {
 
     @GetMapping("/")
     public String root(){
-        return "redirect:/accountBook";
+        return "index";
     }
 
 }

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>수입 목록</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @keyframes gradientBackground {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+        body {
+            animation: gradientBackground 15s ease infinite;
+            background: linear-gradient(45deg, #007bff, #28a745, #dc3545, #ffc107, #17a2b8);
+            background-size: 400% 400%;
+        }
+        h1 {
+            color: black; /* 제목 색상을 검정으로 변경 */
+            font-weight: bold; /* 글자를 굵게 변경 */
+        }
+        table {
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            color: black; /* 테이블 글자색을 검정으로 유지 */
+        }
+        th, td {
+            padding: 15px;
+            font-weight: bold; /* 테이블 글자를 굵게 유지 */
+        }
+        .total-amount {
+            font-weight: bold;
+            color: #28a745;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">수입 목록</h1>
+    <table class="table table-hover">
+        <thead class="thead-light">
+        <tr>
+            <th>수입경로</th>
+            <th>수입</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${incomeItems}">
+            <td th:text="${item.incomePath}">Path</td>
+            <td th:text="${item.incomeAmount}">Amount</td>
+        </tr>
+        <tr>
+            <td colspan="2" class="text-right total-amount">총 수입 금액: <span th:text="${totalIncomeAmount}"></span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src=https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.5/dist/umd/popper.min.js></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+

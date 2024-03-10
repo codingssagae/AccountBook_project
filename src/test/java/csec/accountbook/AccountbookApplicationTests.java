@@ -1,7 +1,6 @@
 package csec.accountbook;
 
 import csec.accountbook.domain.*;
-import csec.accountbook.repository.*;
 import csec.accountbook.service.*;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
@@ -10,15 +9,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @SpringBootTest
 class AccountbookApplicationTests {
 
 
     @Autowired EntityManager em;
     @Autowired ExpenseItemService expenseItemService;
-    @Autowired ExpenseSevice expenseSevice;
+    @Autowired
+    ExpenseService expenseSevice;
     @Autowired MemberService memberService;
     @Autowired
     IncomeService incomeService;

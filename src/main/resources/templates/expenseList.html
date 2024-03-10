@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>지출 목록</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @keyframes gradientBackground {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+        body {
+            animation: gradientBackground 15s ease infinite;
+            background: linear-gradient(45deg, #007bff, #28a745, #dc3545, #ffc107, #17a2b8);
+            background-size: 400% 400%;
+        }
+        h1 {
+            color: black; /* 제목 색상을 검정으로 변경 */
+            font-weight: bold; /* 글자를 굵게 변경 */
+        }
+        table {
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            color: black; /* 테이블 글자색을 검정으로 유지 */
+        }
+        th, td {
+            padding: 15px;
+            font-weight: bold; /* 테이블 글자를 굵게 유지 */
+        }
+        .total-amount {
+            font-weight: bold;
+            color: red;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">지출 목록</h1>
+    <table class="table table-hover">
+        <thead class="thead-light">
+        <tr>
+            <th>지출 상품 이름</th>
+            <th>수량</th>
+            <th>낱개 가격</th>
+            <th>총 가격</th>
+            <th>종류</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${expenseItems}">
+            <td th:text="${item.getItemName()}">Name</td>
+            <td th:text="${item.getItemCount()}">Count</td>
+            <td th:text="${item.getSingleItemPrice()}">SingleP</td>
+            <td th:text="${item.getTotalItemPrice()}">Amount</td>
+            <td th:text="${item.getItemType()}">Type</td>
+        </tr>
+        <tr>
+            <td colspan="5" class="text-right total-amount">총 지출 금액: <span th:text="${totalAmount}"></span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src=https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.5/dist/umd/popper.min.js></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
