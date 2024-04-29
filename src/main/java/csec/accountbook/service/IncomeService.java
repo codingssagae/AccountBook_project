@@ -1,6 +1,7 @@
 package csec.accountbook.service;
 
 import csec.accountbook.domain.*;
+import csec.accountbook.repository.IncomeItemRepository;
 import csec.accountbook.repository.IncomeRepository;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.Optional;
 public class IncomeService {
 
     private final IncomeRepository incomeRepository;
+    private final IncomeItemRepository incomeItemRepository;
     private final EntityManager em;
     @Transactional
     public Income createIncome(Member member){
@@ -32,7 +34,9 @@ public class IncomeService {
         }
     }
 
-
+    public List<IncomeItem> getAllIncomeItems(){
+        return incomeItemRepository.findAll();
+    }
 
     @Transactional
     public void updateTotalIncomeAmount(Income income){
@@ -51,9 +55,11 @@ public class IncomeService {
 
 
     public int getTotalIncomeAmount(){
-        Optional<Income> income = incomeRepository.findById(1L);
-        Income income1 = income.get();
-        int totalIncomeAmount = income1.getTotalIncomeAmount();
+        List<IncomeItem> allIncomeItems = getAllIncomeItems();
+        int totalIncomeAmount = 0;
+        for(IncomeItem item : allIncomeItems){
+            totalIncomeAmount+=item.getIncomeAmount();
+        }
         return totalIncomeAmount;
     }
 

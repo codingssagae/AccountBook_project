@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>수입 입력</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>수입 입력</h1>
+    <form th:action="@{/income/save}" th:object="${incomeItem}" method="post">
+        <div class="form-group">
+            <label for="incomePath">수입 경로:</label>
+            <input type="text" class="form-control" id="incomePath" th:field="*{incomePath}" required>
+        </div>
+        <div class="form-group">
+            <label for="incomeAmount">금액:</label>
+            <input type="number" class="form-control" id="incomeAmount" th:field="*{incomeAmount}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">저장</button>
+    </form>
+</div>
+<!-- Optional JavaScript -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.5/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

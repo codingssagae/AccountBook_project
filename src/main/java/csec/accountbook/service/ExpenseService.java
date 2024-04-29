@@ -4,6 +4,7 @@ import csec.accountbook.domain.Expense;
 import csec.accountbook.domain.ExpenseItem;
 import csec.accountbook.domain.ItemType;
 import csec.accountbook.domain.Member;
+import csec.accountbook.repository.ExpenseItemRepository;
 import csec.accountbook.repository.ExpenseRepository;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import java.util.Optional;
 public class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
+    private final ExpenseItemRepository expenseItemRepository;
     private final EntityManager em;
     @Transactional
     public Expense createExpense(Member member){
@@ -35,13 +37,17 @@ public class ExpenseService {
             expense.getExpenseItems().add(item);
         }
     }
-
+    public List<ExpenseItem> getAllExpenseItems() {
+        return expenseItemRepository.findAll();
+    }
 
     public int getTotalAmount(){
-        Optional<Expense> expense = expenseRepository.findById(1L);
-        Expense expense1 = expense.get();
-        int totalExpenseAmount = expense1.getTotalExpenseAmount();
-        return totalExpenseAmount;
+        List<ExpenseItem> allExpenseItems = getAllExpenseItems();
+        int tmp = 0;
+        for(ExpenseItem expenseItem : allExpenseItems){
+            tmp+=expenseItem.getTotalItemPrice();
+        }
+        return tmp;
     }
 
     @Transactional

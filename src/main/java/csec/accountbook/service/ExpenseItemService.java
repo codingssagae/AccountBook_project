@@ -17,14 +17,14 @@ public class ExpenseItemService  {
 
     private final ExpenseItemRepository expenseItemRepository;
     @Transactional
-    public ExpenseItem save(String name, int price, int count, String type){
+    public ExpenseItem save(String name, int price, int count, ItemType itemType2){
 
         ExpenseItem expenseItem = new ExpenseItem();
         expenseItem.setItemName(name);
         expenseItem.setSingleItemPrice(price);;
         expenseItem.setItemCount(count);
         for(ItemType itemType : ItemType.values()){
-            if(itemType.name().equalsIgnoreCase(type)){
+            if(itemType.name().equalsIgnoreCase(itemType2.toString())){
                 expenseItem.setItemType(itemType);
                 break;
             }
@@ -33,6 +33,8 @@ public class ExpenseItemService  {
         expenseItemRepository.save(expenseItem);
         return expenseItem;
     }
+
+
 
     public List<ExpenseItem> getAllItems(){
         return expenseItemRepository.findAll();
