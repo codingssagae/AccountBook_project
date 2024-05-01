@@ -24,8 +24,17 @@ public class IncomeItemService {
         return item;
     }
 
+
     public List<IncomeItem> getAllItems(){
         return incomeItemRepository.findAll();
     }
 
+    public int getTotalIncomeAmount() {
+        List<IncomeItem> incomeItems = getAllItems();
+        int totalAmount = 0;
+        for(IncomeItem item : incomeItems){
+            totalAmount+=item.getIncomeAmount();
+        }
+        return totalAmount;
+    }
 }

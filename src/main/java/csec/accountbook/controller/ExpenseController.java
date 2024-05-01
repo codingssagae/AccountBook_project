@@ -1,6 +1,5 @@
 package csec.accountbook.controller;
 
-import csec.accountbook.domain.Expense;
 import csec.accountbook.domain.ExpenseItem;
 import csec.accountbook.domain.ItemType;
 import csec.accountbook.service.ExpenseItemService;

@@ -15,8 +15,8 @@ public class ExpenseItem {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "EXPENSE_ID")
-    private Expense expense;
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
 
     private String itemName;
     private int singleItemPrice;
@@ -25,10 +25,5 @@ public class ExpenseItem {
 
     @Enumerated(STRING)
     private ItemType itemType;
-
-    public void setExpense(Expense expense){
-        this.expense = expense;
-        expense.getExpenseItems().add(this);
-    }
 
 }

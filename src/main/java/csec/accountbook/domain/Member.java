@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter @Setter
 public class Member {
@@ -13,13 +15,21 @@ public class Member {
     @Column(name = "MEMBER_ID")
     private Long id;
 
-    @OneToOne(mappedBy = "member")
-    private Expense expense;
+    @Column(unique = true)
+    private String username;
 
-    @OneToOne(mappedBy = "member")
-    private Income income;
+    private String password;
 
-    private String name;
-    private int age;
+    @Column(unique = true)
+    private String email;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<IncomeItem> incomeItems;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ExpenseItem> expenseItems;
+
+
+
 
 }

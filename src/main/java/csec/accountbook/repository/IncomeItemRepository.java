@@ -1,6 +1,5 @@
 package csec.accountbook.repository;
 
-import csec.accountbook.domain.Income;
 import csec.accountbook.domain.IncomeItem;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;

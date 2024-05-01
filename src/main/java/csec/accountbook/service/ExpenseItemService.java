@@ -41,5 +41,12 @@ public class ExpenseItemService  {
     }
 
 
-
+    public int getTotalExpensesAmount() {
+        List<ExpenseItem> allItems = getAllItems();
+        int totalAmount = 0;
+        for(ExpenseItem item : allItems){
+            totalAmount+=item.getTotalItemPrice();
+        }
+        return totalAmount;
+    }
 }
