@@ -6,6 +6,8 @@ import csec.accountbook.domain.IncomeItem;
 import csec.accountbook.domain.ItemType;
 import csec.accountbook.service.IncomeItemService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,12 +28,13 @@ public class Incomecontroller {
     }
 
     @PostMapping("/income/save")
-    public String saveIncome(@ModelAttribute IncomeItem incomeItem, BindingResult result){
+    public String saveIncome(@ModelAttribute IncomeItem incomeItem, BindingResult result,
+                             @AuthenticationPrincipal UserDetails userDetails){
         if (result.hasErrors()){
             return "incomeItemForm";
         }
-        incomeItemService.save(incomeItem.getIncomeAmount(),incomeItem.getIncomePath());
-        return "redirect:/";
+        incomeItemService.save(incomeItem.getIncomeAmount(),incomeItem.getIncomePath(), userDetails.getUsername());
+        return "redirect:/accountBookMenu";
     }
 
 

@@ -3,12 +3,16 @@ package csec.accountbook.service;
 
 import csec.accountbook.domain.ExpenseItem;
 import csec.accountbook.domain.ItemType;
+import csec.accountbook.domain.Member;
 import csec.accountbook.repository.ExpenseItemRepository;
+import csec.accountbook.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -16,13 +20,17 @@ import java.util.List;
 public class ExpenseItemService  {
 
     private final ExpenseItemRepository expenseItemRepository;
+    private final MemberRepository memberRepository;
+    private final MemberService memberService;
     @Transactional
-    public ExpenseItem save(String name, int price, int count, ItemType itemType2){
+    public ExpenseItem save(String name, int price, int count, ItemType itemType2, String username){
 
+        Optional<Member> member = memberRepository.findByUsername(username);
         ExpenseItem expenseItem = new ExpenseItem();
         expenseItem.setItemName(name);
         expenseItem.setSingleItemPrice(price);;
         expenseItem.setItemCount(count);
+        expenseItem.setMember(member.get());
         for(ItemType itemType : ItemType.values()){
             if(itemType.name().equalsIgnoreCase(itemType2.toString())){
                 expenseItem.setItemType(itemType);
@@ -36,17 +44,16 @@ public class ExpenseItemService  {
 
 
 
-    public List<ExpenseItem> getAllItems(){
-        return expenseItemRepository.findAll();
-    }
-
-
-    public int getTotalExpensesAmount() {
-        List<ExpenseItem> allItems = getAllItems();
+    public int getTotalExpensesAmount(List<ExpenseItem> expenseItems) {
         int totalAmount = 0;
-        for(ExpenseItem item : allItems){
+        for(ExpenseItem item : expenseItems){
             totalAmount+=item.getTotalItemPrice();
         }
         return totalAmount;
+    }
+
+    public List<ExpenseItem> getExpenseItemsByMemberId(UserDetails userDetails){
+        Optional<Long> id = memberRepository.findIdByUsername(userDetails.getUsername());
+        return expenseItemRepository.findByMemberId(id.get());
     }
 }

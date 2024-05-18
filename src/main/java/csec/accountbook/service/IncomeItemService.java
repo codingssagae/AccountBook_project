@@ -2,12 +2,17 @@ package csec.accountbook.service;
 
 import csec.accountbook.domain.ExpenseItem;
 import csec.accountbook.domain.IncomeItem;
+import csec.accountbook.domain.Member;
 import csec.accountbook.repository.IncomeItemRepository;
+import csec.accountbook.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.function.IntConsumer;
 
 @Service
 @RequiredArgsConstructor
@@ -15,22 +20,25 @@ import java.util.List;
 public class IncomeItemService {
 
     private final IncomeItemRepository incomeItemRepository;
+    private final MemberRepository memberRepository;
     @Transactional
-    public IncomeItem save(int amount, String path){
+    public IncomeItem save(int amount, String path, String username){
+        Optional<Member> member = memberRepository.findByUsername(username);
         IncomeItem item = new IncomeItem();
         item.setIncomeAmount(amount);
         item.setIncomePath(path);
+        item.setMember(member.get());
         incomeItemRepository.save(item);
         return item;
     }
 
 
-    public List<IncomeItem> getAllItems(){
-        return incomeItemRepository.findAll();
+    public List<IncomeItem> getExpenseItemsByMemberId(UserDetails userDetails){
+        Optional<Long> id = memberRepository.findIdByUsername(userDetails.getUsername());
+        return incomeItemRepository.findByMemberId(id.get());
     }
 
-    public int getTotalIncomeAmount() {
-        List<IncomeItem> incomeItems = getAllItems();
+    public int getTotalIncomeAmount(List<IncomeItem> incomeItems) {
         int totalAmount = 0;
         for(IncomeItem item : incomeItems){
             totalAmount+=item.getIncomeAmount();

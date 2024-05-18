@@ -4,6 +4,8 @@ import csec.accountbook.domain.ExpenseItem;
 import csec.accountbook.domain.ItemType;
 import csec.accountbook.service.ExpenseItemService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,13 +27,15 @@ public class ExpenseController {
     }
 
     @PostMapping("/expenses/save")
-    public String saveExpense(@ModelAttribute ExpenseItem expenseItem, BindingResult result){
+    public String saveExpense(@ModelAttribute ExpenseItem expenseItem, BindingResult result,
+                              @AuthenticationPrincipal UserDetails userDetails){
         if (result.hasErrors()){
             return "expenseItemForm";
         }
+
         expenseItemService.save(expenseItem.getItemName(), expenseItem.getSingleItemPrice(),
-                expenseItem.getItemCount(), expenseItem.getItemType());
-        return "redirect:/";
+                expenseItem.getItemCount(), expenseItem.getItemType(),userDetails.getUsername());
+        return "redirect:/accountBookMenu";
     }
 
 }

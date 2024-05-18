@@ -2,6 +2,7 @@ package csec.accountbook.service;
 import csec.accountbook.domain.Member;
 import csec.accountbook.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,4 +23,10 @@ public class MemberService {
         this.memberRepository.save(member);
         return member;
     }
+
+    public Long getUserIdByUsername(String name){
+        return memberRepository.findIdByUsername(name)
+                .orElseThrow(()->new UsernameNotFoundException("Not found"));
+    }
+
 }
