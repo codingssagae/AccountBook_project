@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 import static jakarta.persistence.EnumType.*;
 
 @Entity
@@ -25,5 +27,7 @@ public class ExpenseItem {
 
     @Enumerated(STRING)
     private ItemType itemType;
+    private LocalDate purchaseDate;
+
 
 }

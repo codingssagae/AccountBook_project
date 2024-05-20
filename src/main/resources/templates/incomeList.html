@@ -47,22 +47,23 @@
     <table class="table table-hover">
         <thead class="thead-light">
         <tr>
-            <th>수입경로</th>
-            <th>수입</th>
+            <th>수입 경로</th>
+            <th>금액</th>
+            <th>날짜</th> <!-- 날짜 열 추가 -->
         </tr>
         </thead>
         <tbody>
         <tr th:each="item : ${incomeItems}">
             <td th:text="${item.incomePath}">Path</td>
             <td th:text="${item.incomeAmount}">Amount</td>
+            <td th:text="${item.incomeDate}">Date</td> <!-- 날짜 표시 -->
         </tr>
         <tr>
-            <td colspan="2" class="text-right total-amount">총 수입 금액: <span th:text="${totalIncomeAmount}"></span></td>
+            <td colspan="3" class="text-right total-amount">총 수입 금액: <span th:text="${totalIncomeAmount}"></span></td>
         </tr>
         </tbody>
     </table>
 </div>
-
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +24,7 @@ public class ExpenseItemService  {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
     @Transactional
-    public ExpenseItem save(String name, int price, int count, ItemType itemType2, String username){
+    public ExpenseItem save(String name, int price, int count, ItemType itemType2, String username, LocalDate localDate){
 
         Optional<Member> member = memberRepository.findByUsername(username);
         ExpenseItem expenseItem = new ExpenseItem();
@@ -31,6 +32,7 @@ public class ExpenseItemService  {
         expenseItem.setSingleItemPrice(price);;
         expenseItem.setItemCount(count);
         expenseItem.setMember(member.get());
+        expenseItem.setPurchaseDate(localDate);
         for(ItemType itemType : ItemType.values()){
             if(itemType.name().equalsIgnoreCase(itemType2.toString())){
                 expenseItem.setItemType(itemType);

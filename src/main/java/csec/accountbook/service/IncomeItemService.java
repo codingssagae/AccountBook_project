@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.IntConsumer;
@@ -22,12 +24,13 @@ public class IncomeItemService {
     private final IncomeItemRepository incomeItemRepository;
     private final MemberRepository memberRepository;
     @Transactional
-    public IncomeItem save(int amount, String path, String username){
+    public IncomeItem save(int amount, String path, String username, LocalDate localDate){
         Optional<Member> member = memberRepository.findByUsername(username);
         IncomeItem item = new IncomeItem();
         item.setIncomeAmount(amount);
         item.setIncomePath(path);
         item.setMember(member.get());
+        item.setIncomeDate(localDate);
         incomeItemRepository.save(item);
         return item;
     }

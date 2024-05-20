@@ -34,7 +34,7 @@ public class ExpenseController {
         }
 
         expenseItemService.save(expenseItem.getItemName(), expenseItem.getSingleItemPrice(),
-                expenseItem.getItemCount(), expenseItem.getItemType(),userDetails.getUsername());
+                expenseItem.getItemCount(), expenseItem.getItemType(),userDetails.getUsername(),expenseItem.getPurchaseDate());
         return "redirect:/accountBookMenu";
     }
 

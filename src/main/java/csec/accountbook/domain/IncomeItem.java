@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Entity
 @Setter @Getter
 public class IncomeItem {
@@ -20,5 +22,7 @@ public class IncomeItem {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
+
+    private LocalDate incomeDate;
 
 }

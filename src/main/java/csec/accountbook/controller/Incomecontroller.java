@@ -33,7 +33,7 @@ public class Incomecontroller {
         if (result.hasErrors()){
             return "incomeItemForm";
         }
-        incomeItemService.save(incomeItem.getIncomeAmount(),incomeItem.getIncomePath(), userDetails.getUsername());
+        incomeItemService.save(incomeItem.getIncomeAmount(),incomeItem.getIncomePath(), userDetails.getUsername(), incomeItem.getIncomeDate());
         return "redirect:/accountBookMenu";
     }
 
