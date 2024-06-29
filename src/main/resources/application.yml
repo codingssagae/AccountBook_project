@@ -13,5 +13,16 @@ spring:
         format_sql: true
 logging.level:
   org.hibernate.SQL: debug
+cloud:
+  aws:
+    s3:
+      bucketName: leebuk2
+    credentials:
+      accessKey: AKIAZI2LGJP3H23ZLPCZ
+      secretKey:
+    region:
+      static: ap-southeast-2
+    stack:
+      auto: false
 # org.hibernate.type: trace #스프링 부트 2.x, hibernate5
 # org.hibernate.orm.jdbc.bind: trace #스프링 부트 3.x, hibernate6

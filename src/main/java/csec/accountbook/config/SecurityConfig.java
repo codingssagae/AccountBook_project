@@ -1,4 +1,4 @@
-package csec.accountbook;
+package csec.accountbook.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -12,6 +12,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,7 +24,7 @@ public class ExpenseController {
     private final ExpenseItemService expenseItemService;
 
     @GetMapping("/expenseItemForm")
-    public String showExpenseForm(Model model){
+    public String showExpenseForm(Model model) {
         model.addAttribute("expenseItem", new ExpenseItem());
         model.addAttribute("itemTypes", ItemType.values());
         return "expenseItemForm";
@@ -28,14 +32,21 @@ public class ExpenseController {
 
     @PostMapping("/expenses/save")
     public String saveExpense(@ModelAttribute ExpenseItem expenseItem, BindingResult result,
-                              @AuthenticationPrincipal UserDetails userDetails){
-        if (result.hasErrors()){
+                              @RequestParam("imageFile") MultipartFile imageFile,
+                              @AuthenticationPrincipal UserDetails userDetails) {
+        if (result.hasErrors()) {
             return "expenseItemForm";
         }
 
-        expenseItemService.save(expenseItem.getItemName(), expenseItem.getSingleItemPrice(),
-                expenseItem.getItemCount(), expenseItem.getItemType(),userDetails.getUsername(),expenseItem.getPurchaseDate());
+        try {
+            expenseItemService.save(expenseItem.getItemName(), expenseItem.getSingleItemPrice(),
+                    expenseItem.getItemCount(), expenseItem.getItemType(), userDetails.getUsername(),
+                    expenseItem.getPurchaseDate(), imageFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "expenseItemForm";
+        }
+
         return "redirect:/accountBookMenu";
     }
-
 }

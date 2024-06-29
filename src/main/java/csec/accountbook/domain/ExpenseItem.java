@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.awt.*;
 import java.time.LocalDate;
+import java.util.List;
 
 import static jakarta.persistence.EnumType.*;
 
@@ -29,5 +31,9 @@ public class ExpenseItem {
     private ItemType itemType;
     private LocalDate purchaseDate;
 
+    @OneToMany(mappedBy = "expenseItem", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostImage>images;
+
+    private String imagePath; // 이미지 경로 필드 추가
 
 }

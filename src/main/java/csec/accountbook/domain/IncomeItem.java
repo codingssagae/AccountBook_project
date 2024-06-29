@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Setter @Getter
@@ -24,5 +25,8 @@ public class IncomeItem {
     private Member member;
 
     private LocalDate incomeDate;
+
+    @OneToMany(mappedBy = "incomeItem", cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<PostImage> images;
 
 }
