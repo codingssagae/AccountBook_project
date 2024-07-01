@@ -18,7 +18,7 @@ cloud:
     s3:
       bucketName: leebuk2
     credentials:
-      accessKey:
+      accessKey: aa
       secretKey:
     region:
       static: ap-southeast-2
