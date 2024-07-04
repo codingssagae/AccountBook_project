@@ -35,6 +35,11 @@ public class IncomeItemService {
         return item;
     }
 
+    public List<IncomeItem> searchIncomeItems(UserDetails userDetails, String keyword){
+        Optional<Long> id = memberRepository.findIdByUsername(userDetails.getUsername());
+        return incomeItemRepository.findByMemberIdAndIncomePathContaining(id.get(), keyword);
+    }
+
 
     public List<IncomeItem> getExpenseItemsByMemberId(UserDetails userDetails){
         Optional<Long> id = memberRepository.findIdByUsername(userDetails.getUsername());

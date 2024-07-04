@@ -43,8 +43,15 @@ public class AccountBookController {
     }
 
     @GetMapping("/incomeItemList")
-    public String showIncomeList(Model model, @AuthenticationPrincipal UserDetails userDetails){
-        List<IncomeItem> incomeItems = incomeItemService.getExpenseItemsByMemberId(userDetails);
+    public String showIncomeList(Model model, @AuthenticationPrincipal UserDetails userDetails,
+                                 @RequestParam(required = false) String keyword){
+        List<IncomeItem> incomeItems;
+        if (keyword !=null && !keyword.isEmpty()){
+            incomeItems = incomeItemService.searchIncomeItems(userDetails,keyword);
+        }
+        else{
+            incomeItems = incomeItemService.getExpenseItemsByMemberId(userDetails);
+        }
         model.addAttribute("incomeItems", incomeItems);
 
         int totalIncomeAmount = incomeItemService.getTotalIncomeAmount(incomeItems);

@@ -11,4 +11,7 @@ import java.util.List;
 @Repository
 public interface IncomeItemRepository extends JpaRepository<IncomeItem,Long> {
     List<IncomeItem> findByMemberId(Long id);
+
+    List<IncomeItem> findByMemberIdAndIncomePathContaining(Long memberId, String keyword);
+
 }
