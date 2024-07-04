@@ -6,7 +6,7 @@ spring:
     driver-class-name: org.h2.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     properties:
       hibernate:
         # show_sql: true
@@ -18,7 +18,7 @@ cloud:
     s3:
       bucketName: leebuk2
     credentials:
-      accessKey: aa
+      accessKey: AKIAZI2LGJP3H23ZLPCZ
       secretKey:
     region:
       static: ap-southeast-2

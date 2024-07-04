@@ -2,6 +2,7 @@ package csec.accountbook.controller;
 
 import csec.accountbook.domain.ExpenseItem;
 import csec.accountbook.domain.IncomeItem;
+import csec.accountbook.domain.ItemType;
 import csec.accountbook.service.ExpenseItemService;
 import csec.accountbook.service.IncomeItemService;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -22,9 +24,16 @@ public class AccountBookController {
     private final IncomeItemService incomeItemService;
 
     @GetMapping("/expenseItemList")
-    public String showExpenseList(Model model, @AuthenticationPrincipal UserDetails userDetails){
+    public String showExpenseList(Model model, @AuthenticationPrincipal UserDetails userDetails,
+                                  @RequestParam(required = false) ItemType itemType,
+                                  @RequestParam(required = false) String keyword) {
 
-        List<ExpenseItem> expenseItems = expenseItemService.getExpenseItemsByMemberId(userDetails);
+        List<ExpenseItem> expenseItems;
+        if (keyword != null && !keyword.isEmpty()) {
+            expenseItems = expenseItemService.searchExpenseItemsByType(userDetails,itemType ,keyword);
+        } else {
+            expenseItems = expenseItemService.getItemsByTypeAndMemberId(userDetails, itemType);
+        }
         model.addAttribute("expenseItems", expenseItems);
 
         int totalAmount = expenseItemService.getTotalExpensesAmount(expenseItems);

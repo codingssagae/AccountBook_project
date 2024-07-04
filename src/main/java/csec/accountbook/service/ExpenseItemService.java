@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
@@ -67,4 +68,29 @@ public class ExpenseItemService  {
         Optional<Long> id = memberRepository.findIdByUsername(userDetails.getUsername());
         return expenseItemRepository.findByMemberId(id.get());
     }
+
+    public List<ExpenseItem> getItemsByTypeAndMemberId(UserDetails userDetails, ItemType itemType){
+        if (itemType == null){
+            return expenseItemRepository.findAll();
+        }else{
+            Optional<Long> id = memberRepository.findIdByUsername(userDetails.getUsername());
+            return expenseItemRepository.findByMemberIdAndItemType(id.get(),itemType);
+        }
+    }
+
+    public List<ExpenseItem> searchExpenseItems(UserDetails userDetails, String keyword){
+        Optional<Long> id = memberRepository.findIdByUsername(userDetails.getUsername());
+        return expenseItemRepository.findByMemberIdAndItemNameContaining(id.get(),keyword);
+    }
+
+    public List<ExpenseItem> searchExpenseItemsByType(UserDetails userDetails, ItemType itemType, String keyword){
+        Optional<Long> id = memberRepository.findIdByUsername(userDetails.getUsername());
+        if (itemType == null){
+            return searchExpenseItems(userDetails, keyword);
+        }
+        else {
+            return expenseItemRepository.findByMemberIdAndItemTypeAndItemNameContaining(id.get(),itemType,keyword);
+        }
+    }
+
 }
