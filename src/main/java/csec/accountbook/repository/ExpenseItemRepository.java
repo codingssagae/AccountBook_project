@@ -21,4 +21,6 @@ public interface ExpenseItemRepository extends JpaRepository<ExpenseItem, Long> 
     List<ExpenseItem> findByMemberIdAndItemNameContaining(Long memberId, String keyword);
 
     List<ExpenseItem> findByMemberIdAndItemTypeAndItemNameContaining(Long memberId, ItemType itemType, String keyword);
+
+
 }

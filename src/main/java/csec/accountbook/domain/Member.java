@@ -4,6 +4,7 @@ package csec.accountbook.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.List;
 
@@ -23,9 +24,11 @@ public class Member {
     @Column(unique = true)
     private String email;
 
+    @BatchSize(size = 10)
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<IncomeItem> incomeItems;
 
+    @BatchSize(size = 10)
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExpenseItem> expenseItems;
 

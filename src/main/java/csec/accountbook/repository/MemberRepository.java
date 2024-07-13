@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
+
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
@@ -16,5 +18,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Query("SELECT m.id FROM Member m where m.username =:username")
     Optional<Long> findIdByUsername(String username);
+
 
 }
