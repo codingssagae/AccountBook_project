@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Friend</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+            color: #fff;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn {
+            margin: 0 8px;
+        }
+        .navbar {
+            margin-bottom: 30px;
+        }
+        .input-group {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .input-group input {
+            border: none;
+            border-radius: 8px 0 0 8px;
+        }
+        .input-group button {
+            border: none;
+            border-radius: 0 8px 8px 0;
+        }
+        .result-card {
+            background: #fff;
+            color: #000;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">친구 찾기</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form action="/findFriend" method="get">
+                <div class="input-group">
+                    <input type="email" class="form-control" name="email" placeholder="이메일로 친구 찾기" required>
+                    <div class="input-group-append">
+                        <button class="btn btn-success" type="submit">검색</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-4" th:if="${friend != null}">
+        <div class="col-md-6">
+            <div class="result-card text-center">
+                <h2 th:text="${friend.username}"></h2>
+                <p th:text="${friend.email}"></p>
+                <form action="/follow" method="post" class="d-inline">
+                    <input type="hidden" name="followerId" value="/* 현재 로그인한 사용자 ID */">
+                    <input type="hidden" name="followingId" th:value="${friend.id}">
+                    <button class="btn btn-primary" type="submit">팔로우</button>
+                </form>
+                <form action="/unfollow" method="post" class="d-inline">
+                    <input type="hidden" name="followerId" value="/* 현재 로그인한 사용자 ID */">
+                    <input type="hidden" name="followingId" th:value="${friend.id}">
+                    <button class="btn btn-danger" type="submit">언팔로우</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-4" th:if="${friend == null}">
+        <div class="col-md-6">
+            <div class="result-card text-center">
+                <p>해당 이메일로 등록된 친구가 없습니다.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <a href="/following/1" class="btn btn-info">팔로잉 목록</a> <!-- '1'은 현재 로그인한 사용자 ID로 변경 -->
+            <a href="/followers/1" class="btn btn-info">팔로워 목록</a> <!-- '1'은 현재 로그인한 사용자 ID로 변경 -->
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.5/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
