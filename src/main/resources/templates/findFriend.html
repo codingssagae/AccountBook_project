@@ -43,9 +43,30 @@
             padding: 20px;
             margin-top: 20px;
         }
+        .list-group-item {
+            background: rgba(255, 255, 255, 0.8);
+            color: #000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .list-group-item .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .alert {
+            background: rgba(255, 255, 255, 0.8);
+            color: #000;
+        }
+        h3 {
+            color: #fff;
+        }
     </style>
 </head>
 <body>
+<div class="mb-4 text-right">
+    <a href="/accountBookMenu" class="btn btn-secondary">메인 페이지로 돌아가기</a>
+</div>
 <div class="container mt-5">
     <h1 class="mb-4 text-center">친구 찾기</h1>
     <div class="row justify-content-center">
@@ -66,13 +87,15 @@
                 <h2 th:text="${friend.username}"></h2>
                 <p th:text="${friend.email}"></p>
                 <form action="/follow" method="post" class="d-inline">
-                    <input type="hidden" name="followerId" value="/* 현재 로그인한 사용자 ID */">
-                    <input type="hidden" name="followingId" th:value="${friend.id}">
+                    <input type="hidden" name="fromUser" th:value="${loggedInUserId}">
+                    <input type="hidden" name="toUser" th:value="${friend.id}">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                     <button class="btn btn-primary" type="submit">팔로우</button>
                 </form>
                 <form action="/unfollow" method="post" class="d-inline">
-                    <input type="hidden" name="followerId" value="/* 현재 로그인한 사용자 ID */">
-                    <input type="hidden" name="followingId" th:value="${friend.id}">
+                    <input type="hidden" name="fromUser" th:value="${loggedInUserId}">
+                    <input type="hidden" name="toUser" th:value="${friend.id}">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                     <button class="btn btn-danger" type="submit">언팔로우</button>
                 </form>
             </div>
@@ -85,12 +108,44 @@
             </div>
         </div>
     </div>
+    <div class="row justify-content-center mt-4" th:if="${message != null}">
+        <div class="col-md-6">
+            <div class="alert alert-success text-center">
+                <p th:text="${message}"></p>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-4" th:if="${error != null}">
+        <div class="col-md-6">
+            <div class="alert alert-danger text-center">
+                <p th:text="${error}"></p>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6 text-center">
-            <a href="/following/1" class="btn btn-info">팔로잉 목록</a> <!-- '1'은 현재 로그인한 사용자 ID로 변경 -->
-            <a href="/followers/1" class="btn btn-info">팔로워 목록</a> <!-- '1'은 현재 로그인한 사용자 ID로 변경 -->
+    <div class="row">
+        <div class="col-md-6">
+            <h3>내 팔로잉 목록</h3>
+            <ul class="list-group">
+                <li class="list-group-item" th:each="following : ${followingList}">
+                    <div class="user-info">
+                        <span><strong>이름:</strong> <span th:text="${following.username}"></span></span>
+                        <span><strong>이메일:</strong> <span th:text="${following.email}"></span></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h3>내 팔로워 목록</h3>
+            <ul class="list-group">
+                <li class="list-group-item" th:each="follower : ${followersList}">
+                    <div class="user-info">
+                        <span><strong>이름:</strong> <span th:text="${follower.username}"></span></span>
+                        <span><strong>이메일:</strong> <span th:text="${follower.email}"></span></span>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

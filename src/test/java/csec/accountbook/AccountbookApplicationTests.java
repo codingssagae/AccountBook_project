@@ -14,5 +14,9 @@ class AccountbookApplicationTests {
 
 
 
+    @Transactional
+    void test(){
+
+    }
 
 }
