@@ -7,9 +7,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-      default_batch_fetch_size: 100
     properties:
       hibernate:
+        default_batch_fetch_size: 100
         # show_sql: true
         format_sql: true
 logging.level:

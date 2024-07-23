@@ -30,6 +30,7 @@ public class AccountBookController {
     private final IncomeItemService incomeItemService;
     private final MemberRepository memberRepository;
     private final FollowService followService;
+    private final MemberService memberService;
 
     @GetMapping("/expenseItemList")
     public String showExpenseList(Model model, @AuthenticationPrincipal UserDetails userDetails,
@@ -78,13 +79,13 @@ public class AccountBookController {
         Optional<Member> loggedInMember = memberRepository.findByUsername(user.getUsername());
         if(loggedInMember.isPresent()){
             model.addAttribute("loggedInUserId", loggedInMember.get().getId());
-            model.addAttribute("followingList", followService.getFollowingList(loggedInMember.get().getId()));
-            model.addAttribute("followersList", followService.getFollowerList(loggedInMember.get().getId()));
+            model.addAttribute("followingList", memberService.getFollowingList(loggedInMember.get().getId()));
+            model.addAttribute("followersList", memberService.getFollowersList(loggedInMember.get().getId()));
         }
         return "findFriend";
     }
 
-    @GetMapping("/findFriend")
+    /*@GetMapping("/findFriend")
     public String findFriend(@RequestParam("email") String email, Model model,
                              @AuthenticationPrincipal User user) {
         Optional<Member> member = memberRepository.findByEmail(email);
@@ -94,6 +95,24 @@ public class AccountBookController {
             model.addAttribute("loggedInUserId", loggedInUserId);
             model.addAttribute("followingList", followService.getFollowingList(loggedInUserId));
             model.addAttribute("followersList", followService.getFollowerList(loggedInUserId));
+        }
+        if(member.isEmpty()){
+            model.addAttribute("friend", null);
+        }else{
+            model.addAttribute("friend", member.get());
+        }
+        return "findFriend";
+    }*/
+    @GetMapping("/findFriend")
+    public String findFriend(@RequestParam("email") String email, Model model,
+                             @AuthenticationPrincipal User user) {
+        Optional<Member> member = memberRepository.findByEmail(email);
+        Optional<Member> loggedInMember = memberRepository.findByUsername(user.getUsername());
+        if (loggedInMember.isPresent()) {
+            Long loggedInUserId = loggedInMember.get().getId();
+            model.addAttribute("loggedInUserId", loggedInUserId);
+            model.addAttribute("followingList", memberService.getFollowingList(loggedInUserId));
+            model.addAttribute("followersList", memberService.getFollowersList(loggedInUserId));
         }
         if(member.isEmpty()){
             model.addAttribute("friend", null);
