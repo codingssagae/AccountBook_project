@@ -4,6 +4,8 @@ import csec.accountbook.domain.ExpenseItem;
 import csec.accountbook.domain.IncomeItem;
 import csec.accountbook.domain.ItemType;
 import csec.accountbook.domain.Member;
+import csec.accountbook.repository.ExpenseItemRepository;
+import csec.accountbook.repository.IncomeItemRepository;
 import csec.accountbook.repository.MemberRepository;
 import csec.accountbook.service.ExpenseItemService;
 import csec.accountbook.service.FollowService;
@@ -31,6 +33,8 @@ public class AccountBookController {
     private final MemberRepository memberRepository;
     private final FollowService followService;
     private final MemberService memberService;
+    private final ExpenseItemRepository expenseItemRepository;
+    private final IncomeItemRepository incomeItemRepository;
 
     @GetMapping("/expenseItemList")
     public String showExpenseList(Model model, @AuthenticationPrincipal UserDetails userDetails,
@@ -84,25 +88,6 @@ public class AccountBookController {
         }
         return "findFriend";
     }
-
-    /*@GetMapping("/findFriend")
-    public String findFriend(@RequestParam("email") String email, Model model,
-                             @AuthenticationPrincipal User user) {
-        Optional<Member> member = memberRepository.findByEmail(email);
-        Optional<Member> loggedInMember = memberRepository.findByUsername(user.getUsername());
-        if (loggedInMember.isPresent()) {
-            Long loggedInUserId = loggedInMember.get().getId();
-            model.addAttribute("loggedInUserId", loggedInUserId);
-            model.addAttribute("followingList", followService.getFollowingList(loggedInUserId));
-            model.addAttribute("followersList", followService.getFollowerList(loggedInUserId));
-        }
-        if(member.isEmpty()){
-            model.addAttribute("friend", null);
-        }else{
-            model.addAttribute("friend", member.get());
-        }
-        return "findFriend";
-    }*/
     @GetMapping("/findFriend")
     public String findFriend(@RequestParam("email") String email, Model model,
                              @AuthenticationPrincipal User user) {
@@ -147,5 +132,18 @@ public class AccountBookController {
         return findFriendPage(user, model);
     }
 
+    @GetMapping("/viewMemberAccountBook")
+    public String viewMemberAccountBook(@RequestParam ("userId") Long userId,
+                                        Model model){
+        Optional<Member> member = memberRepository.findById(userId);
+        List<ExpenseItem> expenses = expenseItemRepository.findByMemberId(userId);
+        List<IncomeItem> incomes = incomeItemRepository.findByMemberId(userId);
+
+        model.addAttribute("memberName",member.get().getUsername());
+        model.addAttribute("expenses", expenses);
+        model.addAttribute("incomes", incomes);
+
+        return "viewMemberAccountBook";
+    }
 
 }

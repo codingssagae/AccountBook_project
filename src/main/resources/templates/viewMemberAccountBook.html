@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Account Book</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+            color: #fff;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn {
+            margin: 0 8px;
+        }
+        .table {
+            background: rgba(255, 255, 255, 0.8);
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+<div class="mb-4 text-right">
+    <a href="/findFriendPage" class="btn btn-secondary">친구 찾기로 돌아가기</a>
+</div>
+<div class="container mt-5">
+    <h1 class="mb-4 text-center" th:text="${memberName} + '의 수입 및 지출 목록'">회원 이름의 수입 및 지출 목록</h1>
+    <h2>지출 목록</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>항목</th>
+            <th>갯수</th>
+            <th>낱개 금액</th>
+            <th>총 금액</th>
+            <th>날짜</th>
+            <th>이미지</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="expense : ${expenses}">
+            <td th:text="${expense.getItemName()}"></td>
+            <td th:text="${expense.getItemCount()}"></td>
+            <td th:text="${expense.getSingleItemPrice()}"></td>
+            <td th:text="${expense.getTotalItemPrice()}"></td>
+            <td th:text="${expense.getPurchaseDate()}"></td>
+            <td>
+                <img th:if="${expense.imagePath != null}" th:src="${expense.imagePath}" alt="Item Image" style="width: 100px; height: auto;">
+                <span th:if="${expense.imagePath == null}">No Image</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <h2>수입 목록</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>항목</th>
+            <th>금액</th>
+            <th>날짜</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="income : ${incomes}">
+            <td th:text="${income.getIncomePath()}"></td>
+            <td th:text="${income.getIncomeAmount()}"></td>
+            <td th:text="${income.getIncomeDate()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.5/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

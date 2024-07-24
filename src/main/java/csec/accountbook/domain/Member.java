@@ -24,7 +24,6 @@ public class Member {
     @Column(unique = true)
     private String email;
 
-
     @BatchSize(size = 10)
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<IncomeItem> incomeItems;

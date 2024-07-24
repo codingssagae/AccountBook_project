@@ -133,6 +133,7 @@
                         <span><strong>이름:</strong> <span th:text="${following.username}"></span></span>
                         <span><strong>이메일:</strong> <span th:text="${following.email}"></span></span>
                     </div>
+                    <a th:href="@{/viewMemberAccountBook(userId=${following.id})}" class="btn btn-info">→</a>
                 </li>
             </ul>
         </div>
