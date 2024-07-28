@@ -1,4 +1,4 @@
-package csec.accountbook.service;
+package csec.accountbook.security.service;
 
 import csec.accountbook.UserRole;
 import csec.accountbook.domain.Member;
