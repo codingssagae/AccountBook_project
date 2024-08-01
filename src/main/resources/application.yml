@@ -24,6 +24,7 @@ cloud:
     credentials:
       accessKey: AKIAZI2LGJP3H23ZLPCZ
       secretKey:
+
     region:
       static: ap-southeast-2
     stack:

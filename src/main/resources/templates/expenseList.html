@@ -68,25 +68,31 @@
             <th>종류</th>
             <th>날짜</th>
             <th>이미지</th>
+            <th>삭제하기</th>
         </tr>
         </thead>
-        <tbody>
-        <tr th:each="item : ${expenseItems}">
-            <td th:text="${item.itemName}">Name</td>
-            <td th:text="${item.itemCount}">Count</td>
-            <td th:text="${item.singleItemPrice}">SingleP</td>
-            <td th:text="${item.totalItemPrice}">Amount</td>
-            <td th:text="${item.itemType}">Type</td>
-            <td th:text="${item.purchaseDate}">Date</td>
-            <td>
-                <img th:if="${item.imagePath != null}" th:src="${item.imagePath}" alt="Item Image" style="width: 100px; height: auto;">
-                <span th:if="${item.imagePath == null}">No Image</span>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="7" class="text-right total-amount">총 지출 금액: <span th:text="${totalAmount}"></span></td>
-        </tr>
-        </tbody>
+        <<tbody>
+     <tr th:each="item : ${expenseItems}">
+        <td th:text="${item.itemName}">Name</td>
+        <td th:text="${item.itemCount}">Count</td>
+        <td th:text="${item.singleItemPrice}">SingleP</td>
+        <td th:text="${item.totalItemPrice}">Amount</td>
+        <td th:text="${item.itemType}">Type</td>
+        <td th:text="${item.purchaseDate}">Date</td>
+        <td>
+            <img th:if="${item.imagePath != null}" th:src="${item.imagePath}" alt="Item Image" style="width: 100px; height: auto;">
+            <span th:if="${item.imagePath == null}">No Image</span>
+        </td>
+        <td>
+            <form th:action="@{/expenses/delete/{id}(id=${item.id})}" method="post">
+                <button type="submit" class="btn btn-danger">삭제</button>
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="8" class="text-right total-amount">총 지출 금액: <span th:text="${totalAmount}"></span></td>
+    </tr>
+    </tbody>
     </table>
 </div>
 

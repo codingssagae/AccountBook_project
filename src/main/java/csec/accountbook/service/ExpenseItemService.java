@@ -25,10 +25,11 @@ public class ExpenseItemService  {
 
     private final ExpenseItemRepository expenseItemRepository;
     private final MemberRepository memberRepository;
-    private final MemberService memberService;
     private final S3ImageService s3ImageService;
+
     @Transactional
-    public ExpenseItem save(String name, int price, int count, ItemType itemType2, String username, LocalDate localDate, MultipartFile imageFile) throws IOException {
+    public ExpenseItem save(String name, int price, int count, ItemType itemType2, String username, LocalDate localDate, MultipartFile imageFile,
+                            String eventId) throws IOException {
 
         Optional<Member> member = memberRepository.findByUsername(username);
         ExpenseItem expenseItem = new ExpenseItem();
@@ -37,6 +38,7 @@ public class ExpenseItemService  {
         expenseItem.setItemCount(count);
         expenseItem.setMember(member.get());
         expenseItem.setPurchaseDate(localDate);
+        expenseItem.setGoogleCalendarEventId(eventId);
 
         for(ItemType itemType : ItemType.values()){
             if(itemType.name().equalsIgnoreCase(itemType2.toString())){
@@ -53,6 +55,11 @@ public class ExpenseItemService  {
         expenseItem.setTotalItemPrice(count * price);
         expenseItemRepository.save(expenseItem);
         return expenseItem;
+    }
+
+    @Transactional
+    public void delete(Long expenseItemId){
+        expenseItemRepository.deleteById(expenseItemId);
     }
 
 

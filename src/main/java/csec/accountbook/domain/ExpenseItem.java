@@ -36,4 +36,6 @@ public class ExpenseItem {
 
     private String imagePath; // 이미지 경로 필드 추가
 
+    private String googleCalendarEventId;
+
 }
