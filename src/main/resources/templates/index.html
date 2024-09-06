@@ -27,6 +27,10 @@
             <li class="nav-item">
                 <a class="nav-link btn btn-danger text-white" href="/logout">로그아웃</a>
             </li>
+            <li class="nav-item">
+                <!-- 알림 버튼 추가 -->
+                <button id="notificationButton" class="nav-link btn btn-warning text-white">알림</button>
+            </li>
         </ul>
     </div>
 </nav>
@@ -46,8 +50,63 @@
     </div>
 </div>
 
+<!-- 모달 창 추가 -->
+<div class="modal fade" id="notificationModal" tabindex="-1" role="dialog" aria-labelledby="notificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="notificationModalLabel">알림</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="notificationContent">
+                <!-- 알림 내용이 여기에 표시됩니다 -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.5/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    // 모델에서 넘겨받은 userId를 자바스크립트 변수로 설정
+    const userId = [[${userId}]];
+    console.log("userId: ", userId);
+
+    // 알림 저장을 위한 배열
+    let notifications = [];
+
+    // 사용자별 SSE 연결 설정
+    const eventSource = new EventSource(`/connect/${userId}`);
+    console.log("connect eventSource");
+
+    // 특정 이벤트(notification)를 처리하는 addEventListener 사용
+    eventSource.addEventListener("notification", function(event) {
+        const notification = event.data;
+        notifications.push(notification);  // 알림을 배열에 저장
+        console.log("Received notification:", notification);
+
+        // 알림 내용을 모달에 추가 (글자 색을 검은색으로 설정)
+        const notificationContent = document.getElementById('notificationContent');
+        notificationContent.innerHTML += `<p style="color: black;">${notification}</p>`;
+    });
+
+
+    // SSE 연결 에러 처리
+    eventSource.onerror = function(event) {
+        console.error("Error in SSE connection:", event);
+    };
+
+    // 알림 버튼 클릭 시 모달 창 열기
+    document.getElementById('notificationButton').onclick = function() {
+        $('#notificationModal').modal('show');  // 모달 창을 열기
+    };
+</script>
 </body>
 </html>

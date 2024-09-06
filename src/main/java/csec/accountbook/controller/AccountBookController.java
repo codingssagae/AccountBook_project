@@ -12,6 +12,7 @@ import csec.accountbook.service.FollowService;
 import csec.accountbook.service.IncomeItemService;
 import csec.accountbook.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -74,7 +75,9 @@ public class AccountBookController {
 
     @GetMapping("/accountBookMenu")
     public String showAccountBookMenu(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        Optional<Long> userId = memberRepository.findIdByUsername(userDetails.getUsername());
         model.addAttribute("username", userDetails.getUsername());
+        model.addAttribute("userId", userId.get());
         return "index";
     }
 

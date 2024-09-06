@@ -6,11 +6,11 @@ import csec.accountbook.repository.FollowRepository;
 import csec.accountbook.repository.MemberRepository;
 import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,6 +19,7 @@ public class FollowService {
 
     private final FollowRepository followRepository;
     private final MemberRepository memberRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     public void followMember(Long fromUser, Long toUser){
@@ -31,6 +32,12 @@ public class FollowService {
         }
         Follow follow = new Follow(toUser, fromUser);
         followRepository.save(follow);
+
+        Optional<Member> follower = memberRepository.findById(fromUser);
+        Optional<Member> following = memberRepository.findById(toUser);
+        String message = follower.get().getUsername()+"님이 당신을 팔로우했습니다.";
+        System.out.println("message = " + message);
+        notificationService.sendNotification(following.get().getId(), message);
     }
 
     @Transactional

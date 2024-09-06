@@ -26,7 +26,9 @@ public class IncomeItem {
 
     private LocalDate incomeDate;
 
-    @OneToMany(mappedBy = "incomeItem", cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "incomeItem", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostImage> images;
+
+    private String googleCalendarEventId;
 
 }

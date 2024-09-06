@@ -38,6 +38,9 @@ dependencies {
 	implementation 'com.google.auth:google-auth-library-oauth2-http:1.4.0'
 	implementation 'com.google.http-client:google-http-client-gson:1.19.0'
 
+	implementation 'jakarta.xml.bind:jakarta.xml.bind-api:3.0.0'
+	implementation 'org.glassfish.jaxb:jaxb-runtime:3.0.0'
+
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 
